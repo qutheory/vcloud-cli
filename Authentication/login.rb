@@ -26,7 +26,7 @@ module VCloud
             'password': password,
         }
 
-        res = VCloud::Helper::Api::Post::new::call('admin/login', request, false)
+        res = VCloud::Helper::Api::Post::new::call('v2/login', request, false)
 
         if res.kind_of? Net::HTTPSuccess
           details = JSON.parse(res.body)
@@ -39,7 +39,7 @@ module VCloud
           VCloud::Authentication::SecretFile::new::write_entry('name', me['name']['first'])
 
           puts 'You are now logged in to Vapor Cloud CLI'.colorize(:green)
-          
+
         else
           puts 'Please check email and password are correct'.colorize(:red)
           login

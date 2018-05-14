@@ -6,9 +6,10 @@ module VCloud
           if ARGV[0] == '--debug'
             puts 'Refreshing token'.colorize(:yellow)
           end
-          uri = URI('http://0.0.0.0:8080/admin/refresh')
+          uri = URI("https://api.vaporcloud.io/admin/refresh")
           http = Net::HTTP.new(uri.host, uri.port)
-
+          http.use_ssl = true
+          
           req = Net::HTTP::Get.new(uri.path, {'Authorization': "Bearer #{VCloud::Authentication::SecretFile::new::parse_secret['refresh_token']}"})
 
           res = http.request(req)

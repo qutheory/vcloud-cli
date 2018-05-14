@@ -3,9 +3,10 @@ module VCloud
     module Api
       class Patch
         def call(endpoint, data, protected = true, try_again = false)
-          uri = URI("http://0.0.0.0:8080/#{endpoint}")
+          uri = URI("https://api.vaporcloud.io/#{endpoint}")
           http = Net::HTTP.new(uri.host, uri.port)
-
+          http.use_ssl = true
+          
           if protected
             req = Net::HTTP::Patch.new(uri.path, {
                 'Content-Type' => 'application/json',

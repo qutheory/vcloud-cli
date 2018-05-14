@@ -3,8 +3,9 @@ module VCloud
     module Api
       class Post
         def call(endpoint, data, protected = true, try_again = false)
-          uri = URI("http://0.0.0.0:8080/#{endpoint}")
+          uri = URI("https://api.vaporcloud.io/#{endpoint}")
           http = Net::HTTP.new(uri.host, uri.port)
+          http.use_ssl = true
 
           if protected
             req = Net::HTTP::Post.new(uri.path, {
@@ -39,6 +40,34 @@ module VCloud
           end
 
           res
+        end
+
+        def callDeploy(endpoint, data, try_again = false)
+          uri = URI("https://api-deploy.vaporcloud.io/#{endpoint}")
+          http = Net::HTTP.new(uri.host, uri.port)
+          http.use_ssl = true
+
+          req = Net::HTTP::Post.new(uri.path, {
+            'Content-Type' => 'application/json',
+            'Authorization' => "Bearer #{VCloud::Authentication::SecretFile::new::parse_secret['access_token']}"
+          })
+
+          req.body = data.to_json
+
+          res = http.request(req)
+
+          unless res.kind_of? Net::HTTPSuccess
+            if File.exist?("#{File.expand_path('~')}/.vcloud") && try_again == false
+              VCloud::Helper::Api::RefreshToken::new::call
+            end
+          end
+
+          unless res.kind_of? Net::HTTPSuccess
+            body = JSON.parse(res.body)
+            puts "The call failed\n".colorize(:red)
+          end
+
+          res.body
         end
       end
     end
