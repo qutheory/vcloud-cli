@@ -1,7 +1,5 @@
 #!/bin/bash
 
-brew upgrade ruby
-
 sudo gem install require tty-prompt paint colorize json redis netrc tty-spinner
 
 if [ -d ~/vcloud-cli ]; then
