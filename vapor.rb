@@ -2,10 +2,6 @@ require File.dirname(__FILE__) + "/require"
 
 prompt = TTY::Prompt.new
 
-unless File.exist?("#{File.expand_path('~')}/.vcloud")
-    VCloud::Authentication::Login::new::login
-end
-
 options = {}
 
 if ARGV[0] != "cloud"

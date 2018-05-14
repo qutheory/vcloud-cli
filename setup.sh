@@ -11,3 +11,5 @@ git clone git@github.com:vapor-cloud/vcloud-cli.git ~/vcloud-cli
 
 cp ~/vcloud-cli/vapor-alpha /usr/local/bin/vapor-alpha
 chmod +x /usr/local/bin/vapor-alpha
+
+vapor-alpha cloud --help
