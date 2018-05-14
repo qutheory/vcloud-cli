@@ -50,8 +50,6 @@ module VCloud
         else
           puts 'We could not create the user'.colorize(:red)
         end
-
-        exec('vcloud')
       end
     end
   end
