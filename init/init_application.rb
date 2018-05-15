@@ -23,12 +23,11 @@ class InitApplication
 
         `git remote add cloud git@git.vaporcloud.io:#{repoName}`
 
-        `git push cloud master -o init`
-        #`echo "" >> README.md`
+        `git push cloud master:init`
         `git commit -am "Init Vapor Cloud" --allow-empty`
 
         puts "You application is now created, and you can deploy by running"
-        puts "git push cloud master -o production"
+        puts "git push cloud master:prodution"
 
         return repoName
     end
