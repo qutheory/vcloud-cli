@@ -46,6 +46,7 @@ module VCloud
           uri = URI("https://api-deploy.vaporcloud.io/#{endpoint}")
           http = Net::HTTP.new(uri.host, uri.port)
           http.use_ssl = true
+          http.read_timeout = 500
 
           req = Net::HTTP::Post.new(uri.path, {
             'Content-Type' => 'application/json',

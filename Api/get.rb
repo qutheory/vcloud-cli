@@ -42,6 +42,7 @@ module VCloud
           uri = URI("https://api-deploy.vaporcloud.io/#{endpoint}")
           http = Net::HTTP.new(uri.host, uri.port)
           http.use_ssl = true
+          http.read_timeout = 500
 
           req = Net::HTTP::Get.new(uri, {'Authorization': "Bearer #{VCloud::Authentication::SecretFile::new::parse_secret['access_token']}"})
 
