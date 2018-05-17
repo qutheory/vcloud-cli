@@ -60,6 +60,7 @@ module VCloud
           unless res.kind_of? Net::HTTPSuccess
             if File.exist?("#{File.expand_path('~')}/.vcloud") && try_again == false
               VCloud::Helper::Api::RefreshToken::new::call
+              return VCloud::Helper::Api::Post::new::call(endpoint, data, true)
             end
           end
 
