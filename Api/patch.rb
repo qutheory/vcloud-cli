@@ -3,12 +3,12 @@ module VCloud
     module Api
       class Patch
         def call(endpoint, data, protected = true, try_again = false)
-          uri = URI("https://api.vaporcloud.io/#{endpoint}")
+          uri = URI("https://api.v2.vapor.cloud/#{endpoint}")
           http = Net::HTTP.new(uri.host, uri.port)
           http.use_ssl = true
-          
+
           if protected
-            req = Net::HTTP::Patch.new(uri.path, {
+            req = Net::HTTP::Patch.new(uri, {
                 'Content-Type' => 'application/json',
                 'Authorization': "Bearer #{VCloud::Authentication::SecretFile::new::parse_secret['access_token']}"
             })

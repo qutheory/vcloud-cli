@@ -7,6 +7,12 @@ class ReplicaInit
             Command.new.run
         when "scale"
             ReplicaScale.new.run
+        when "restart"
+            ReplicaRestart.new.run
+        when "config"
+            ReplicaConfig.new.run
+        when "rollback"
+            ReplicaRollback.new.run
         else
             options = {}
             opt_parser = OptionParser.new do |opts|
@@ -16,6 +22,9 @@ class ReplicaInit
               opts.separator  "    logs\tReturn replica logs"
               opts.separator  "    run \tRun command in replica"
               opts.separator  "    scale \tScale amount of replicas"
+              opts.separator  "    restart \tRestart replicas"
+              opts.separator  "    config \tAdd config variables"
+              opts.separator  "    rollback \tRollback to previous version"
               opts.separator  ""
             end
 

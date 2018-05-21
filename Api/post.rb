@@ -3,7 +3,7 @@ module VCloud
     module Api
       class Post
         def call(endpoint, data, protected = true, try_again = false)
-          uri = URI("https://api.vaporcloud.io/#{endpoint}")
+          uri = URI("https://api.v2.vapor.cloud/#{endpoint}")
           http = Net::HTTP.new(uri.host, uri.port)
           http.use_ssl = true
 
@@ -43,7 +43,7 @@ module VCloud
         end
 
         def callDeploy(endpoint, data, try_again = false)
-          uri = URI("https://api-deploy.vaporcloud.io/#{endpoint}")
+          uri = URI("https://api-deploy.v2.vapor.cloud/#{endpoint}")
           http = Net::HTTP.new(uri.host, uri.port)
           http.use_ssl = true
           http.read_timeout = 500
@@ -60,7 +60,7 @@ module VCloud
           unless res.kind_of? Net::HTTPSuccess
             if File.exist?("#{File.expand_path('~')}/.vcloud") && try_again == false
               VCloud::Helper::Api::RefreshToken::new::call
-              return VCloud::Helper::Api::Post::new::call(endpoint, data, true)
+              return VCloud::Helper::Api::Post::new::callDeploy(endpoint, data, true)
             end
           end
 

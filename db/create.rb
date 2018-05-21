@@ -50,11 +50,22 @@ class DbCreate
         end
 
         plans = {}
-        plans["Standard ($TBD/month)"] = "free"
+        #plans["(Dev) Free $0/month - (20K rows / 20 connections)"] = "dev-free"
+        #plans["(Dev) Hobby $TBD/month - (5M rows / 20 connections)"] = "dev-hobby"
+        plans["(Standard) Small $TBD/month - (1GB memory / TBD connections)"] = "standard-small"
 
         begin
           prompt = TTY::Prompt.new
           plan = prompt.select('Choose plan', plans)
+        rescue SystemExit, Interrupt, TTY::Prompt::Reader::InputInterrupt
+          exit
+        end
+
+        regions = {}
+        regions["do-fra (Digital Ocean - Frankfurt)"] = "do-fra"
+        begin
+          prompt = TTY::Prompt.new
+          region = prompt.select('Choose region', regions)
         rescue SystemExit, Interrupt, TTY::Prompt::Reader::InputInterrupt
           exit
         end

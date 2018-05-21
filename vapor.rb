@@ -27,6 +27,8 @@ when "db"
     DbInit.new.run(ARGV[2])
 when "replica"
     ReplicaInit.new.run(ARGV[2])
+when "deployments"
+    Deployments.new.run
 else
     opt_parser = OptionParser.new do |opts|
       opts.banner = "Usage: vapor-alpha cloud COMMAND"
@@ -36,6 +38,7 @@ else
       opts.separator  "    init\t Setup new project"
       opts.separator  "    db  \t Manage Vapor Cloud databases"
       opts.separator  "    replica \t Replica management"
+      opts.separator  "    deployments \t Get deployments"
       opts.separator  ""
     end
     opt_parser.parse!
