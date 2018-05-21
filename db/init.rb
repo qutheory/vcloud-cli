@@ -14,7 +14,7 @@ class DbInit
               opts.separator  ""
               opts.separator  "Commands"
               opts.separator  "    create\tCreate new database"
-              opts.separator  "    creds\tReturn database credentials"
+              opts.separator  "    credentials\tReturn database credentials"
               opts.separator  "    login\tLogin through CLI to a database server"
               opts.separator  ""
             end

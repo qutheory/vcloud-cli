@@ -6,6 +6,7 @@ class DbCreate
           opts.separator  ""
           opts.separator  "Options"
           opts.on('-a', '--app APP', 'Application slug') { |v| options[:app] = v }
+          opts.on('-e', '--env ENVIRONMENT', 'Environment name') { |v| options[:env] = v }
         end
 
         opt_parser.parse!
@@ -15,8 +16,13 @@ class DbCreate
             exit
         end
 
+        unless options[:env]
+            puts opt_parser
+            exit
+        end
+
         prompt = TTY::Prompt.new
-        spinner = TTY::Spinner.new("[:spinner] Creating database server ...")
+        spinner = TTY::Spinner.new("[:spinner] Creating database ...")
 
         name = prompt.ask('Name:') do |q|
           q.required(true)
@@ -50,8 +56,8 @@ class DbCreate
         end
 
         plans = {}
-        #plans["(Dev) Free $0/month - (20K rows / 20 connections)"] = "dev-free"
-        #plans["(Dev) Hobby $TBD/month - (5M rows / 20 connections)"] = "dev-hobby"
+        plans["(Dev) Free $0/month - (20K rows / 20 connections)"] = "dev-free"
+        plans["(Dev) Hobby $TBD/month - (5M rows / 20 connections)"] = "dev-hobby"
         plans["(Standard) Small $TBD/month - (1GB memory / TBD connections)"] = "standard-small"
 
         begin
@@ -72,6 +78,7 @@ class DbCreate
 
         object = {
             repoName: options[:app],
+            environmentName: options[:env],
             name: name,
             size: plan,
             engine: engine,

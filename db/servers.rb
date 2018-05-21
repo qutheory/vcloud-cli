@@ -6,6 +6,7 @@ class DbServers
           opts.separator  ""
           opts.separator  "Options"
           opts.on('-a', '--app APP', 'Application slug') { |v| options[:app] = v }
+          opts.on('-e', '--env Environment', 'Environment') { |v| options[:env] = v }
         end
 
         opt_parser.parse!
@@ -15,28 +16,18 @@ class DbServers
             exit
         end
 
-        servers = VCloud::Helper::Api::Get::new::call("v2/database?application=#{options[:app]}", true)
-
-        serversObj = {}
-
-        servers.each do |key|
-            serversObj[key["name"]] = key["id"]
+        unless options[:env]
+            puts opt_parser
+            exit
         end
 
-        begin
-          prompt = TTY::Prompt.new
-          server = prompt.select('Choose server', serversObj)
-        rescue SystemExit, Interrupt, TTY::Prompt::Reader::InputInterrupt
-          exit
-        end
+        db = VCloud::Helper::Api::Get::new::call("v2/database/databases?application=#{options[:app]}&environment=#{options[:env]}", true)
 
-        db = VCloud::Helper::Api::Get::new::call("v2/database/#{server}", true)
-
-        puts "Credentials (Production environment):"
-        puts "Username: ".colorize(:light_blue) + db["databases"][0]["username"]
-        puts "Database: ".colorize(:light_blue) + db["databases"][0]["database"]
-        puts "Password: ".colorize(:light_blue) + db["databases"][0]["password"]
-        puts "Hostname: ".colorize(:light_blue) + "databases.vaporcloud.io"
-        puts "Port: ".colorize(:light_blue) + "#{db["port"]}"
+        puts "Credentials (#{db["database"]["environment"]["name"]} environment):"
+        puts "Username: ".colorize(:light_blue) + db["database"]["username"]
+        puts "Database: ".colorize(:light_blue) + db["database"]["database"]
+        puts "Password: ".colorize(:light_blue) + db["database"]["password"]
+        puts "Hostname: ".colorize(:light_blue) + "database.v2.vapor.cloud"
+        puts "Port: ".colorize(:light_blue) + "#{db["server"]["port"]}"
     end
 end
