@@ -11,7 +11,10 @@ require "optparse"
 require "tty-spinner"
 require 'terminal-table'
 require 'time'
+require 'faye/websocket'
+require 'eventmachine'
 
+require File.dirname(__FILE__) + "/socket"
 require File.dirname(__FILE__) + "/Api/get"
 require File.dirname(__FILE__) + "/Api/post"
 require File.dirname(__FILE__) + "/Api/patch"
@@ -34,6 +37,8 @@ require File.dirname(__FILE__) + "/db/init"
 require File.dirname(__FILE__) + "/db/create"
 require File.dirname(__FILE__) + "/db/servers"
 require File.dirname(__FILE__) + "/db/login"
+require File.dirname(__FILE__) + "/redis/init"
+require File.dirname(__FILE__) + "/redis/create"
 require File.dirname(__FILE__) + "/help"
 require File.dirname(__FILE__) + "/deployments"
 require File.dirname(__FILE__) + "/auth"

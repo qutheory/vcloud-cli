@@ -25,12 +25,20 @@ class CloudLog
 
         spinner = TTY::Spinner.new("[:spinner] Fetching logs ...")
 
+        object = {
+            application: options[:app],
+            environment: options[:env]
+        }
+
         spinner.auto_spin
-        output = VCloud::Helper::Api::Get::new::callDeploy("logs?repoName=#{options[:app]}&environmentName=#{options[:env]}&lines=200")
+        output = VCloud::Helper::Api::Post::new::call("v2/replica/logs", object, true)
         spinner.stop('Done!')
 
-        puts ""
-        puts output
-        exit
+        data = JSON.parse(output.body)
+
+        id = data['id']
+        app = options[:app]
+
+        CloudSocket::new::run("#{id}", "#{app}")
     end
 end

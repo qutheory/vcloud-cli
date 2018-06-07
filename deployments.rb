@@ -39,6 +39,8 @@ class Deployments
             case value['type']
             when 'code'
                 row << "Git hash: #{value['meta']['shortGitHash']}"
+            when 'replica'
+                row << "Action: #{value['meta']['action']}"
             else
                 row << ""
             end

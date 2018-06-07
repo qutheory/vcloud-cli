@@ -25,8 +25,17 @@ when "auth"
     CloudAuth.new.run(ARGV[2])
 when "db"
     DbInit.new.run(ARGV[2])
+when "redis"
+    RedisInit.new.run(ARGV[2])
 when "replica"
     ReplicaInit.new.run(ARGV[2])
+when "config"
+    case ARGV[2]
+    when "dump"
+        ReplicaConfig.new.get
+    when "modify"
+        ReplicaConfig.new.run
+    end
 when "deployments"
     Deployments.new.run
 else
@@ -37,8 +46,11 @@ else
       opts.separator  "    auth\t login/create user"
       opts.separator  "    init\t Setup new project"
       opts.separator  "    db  \t Manage Vapor Cloud databases"
+      opts.separator  "    redis  \t Manage Vapor Cloud Redis"
       opts.separator  "    replica \t Replica management"
       opts.separator  "    deployments \t Get deployments"
+      opts.separator  "    config dump \t Get config"
+      opts.separator  "    config modify \t Update config"
       opts.separator  ""
     end
     opt_parser.parse!

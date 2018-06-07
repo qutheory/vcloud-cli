@@ -3,7 +3,7 @@ class InitApplication
         projectId = InitProject.new.run
         prompt = TTY::Prompt.new
         repoName = prompt.ask('What application slug (https://slug.vaporcloud.io) do you want?', default: "")
-        name = prompt.ask('What application name do you want?', default: "")
+        name = prompt.ask('What application name do you want?', default: repoName)
 
         regions = {}
         regions["do-fra (Digital Ocean - Frankfurt)"] = "do-fra"

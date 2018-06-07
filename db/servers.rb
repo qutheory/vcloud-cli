@@ -23,7 +23,10 @@ class DbServers
 
         db = VCloud::Helper::Api::Get::new::call("v2/database/databases?application=#{options[:app]}&environment=#{options[:env]}", true)
 
-        puts "Credentials (#{db["database"]["environment"]["name"]} environment):"
+        puts ""
+        puts "Credentials (#{db["database"]["environment"]["name"]}):"
+        puts "Connect token: ".colorize(:light_blue) + db["database"]["token"]
+        puts "Connect url: ".colorize(:light_blue) + db["database"]["connectUrl"]
         puts "Username: ".colorize(:light_blue) + db["database"]["username"]
         puts "Database: ".colorize(:light_blue) + db["database"]["database"]
         puts "Password: ".colorize(:light_blue) + db["database"]["password"]

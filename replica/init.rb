@@ -9,8 +9,6 @@ class ReplicaInit
             ReplicaScale.new.run
         when "restart"
             ReplicaRestart.new.run
-        when "config"
-            ReplicaConfig.new.run
         when "rollback"
             ReplicaRollback.new.run
         else
@@ -23,7 +21,6 @@ class ReplicaInit
               opts.separator  "    run \tRun command in replica"
               opts.separator  "    scale \tScale amount of replicas"
               opts.separator  "    restart \tRestart replicas"
-              opts.separator  "    config \tAdd config variables"
               opts.separator  "    rollback \tRollback to previous version"
               opts.separator  ""
             end

@@ -77,16 +77,41 @@ class DbCreate
         end
 
         object = {
-            repoName: options[:app],
-            environmentName: options[:env],
+            application: options[:app],
+            environment: options[:env],
             name: name,
             size: plan,
             engine: engine,
-            version: engineVersion
+            version: engineVersion,
+            region: region
         }
 
         spinner.auto_spin
-        output = VCloud::Helper::Api::Post::new::callDeploy("database", object)
+        output = VCloud::Helper::Api::Post::new::call("v2/database", object)
         spinner.stop('Done!')
+
+        data = JSON.parse(output.body)
+
+        id = data['deployment']['id']
+        app = options[:app]
+
+        CloudSocket::new::run("#{id}", "#{app}")
+
+        # Update configuration
+
+        configurations = {}
+        configurations[data['database']['token']] = data['database']['connectUrl']
+
+        config_spinner = TTY::Spinner.new("[:spinner] Adding #{data['database']['token']} ...")
+        config_spinner.auto_spin
+        config_output = VCloud::Helper::Api::Patch::new::call("v2/config?application=#{options[:app]}&environment=#{options[:env]}", configurations, true)
+        config_spinner.stop('Done!')
+
+        config_data = JSON.parse(config_output.body)
+
+        id = config_data['deployment']['id']
+        app = options[:app]
+
+        CloudSocket::new::run("#{id}", "#{app}")
     end
 end

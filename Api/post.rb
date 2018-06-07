@@ -4,6 +4,7 @@ module VCloud
       class Post
         def call(endpoint, data, protected = true, try_again = false)
           uri = URI("https://api.v2.vapor.cloud/#{endpoint}")
+          #uri = URI("http://0.0.0.0:8081/#{endpoint}")
           http = Net::HTTP.new(uri.host, uri.port)
           http.use_ssl = true
 

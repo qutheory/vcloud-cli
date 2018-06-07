@@ -29,17 +29,20 @@ class Command
         end
 
         object = {
-            repoName: options[:app],
-            environmentName: options[:env],
+            application: options[:app],
+            environment: options[:env],
             command: command
         }
 
         spinner.auto_spin
-        output = VCloud::Helper::Api::Post::new::callDeploy("command", object)
+        output = VCloud::Helper::Api::Post::new::call("v2/replica/command", object, true)
         spinner.stop('Done!')
 
-        puts ""
-        puts output
-        exit
+        data = JSON.parse(output.body)
+
+        id = data['id']
+        app = options[:app]
+
+        CloudSocket::new::run("#{id}", "#{app}")
     end
 end
