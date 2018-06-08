@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo gem install require tty-prompt paint colorize json redis netrc tty-spinner terminal-table
+sudo gem install require tty-prompt paint colorize json redis netrc tty-spinner terminal-table faye-websocket eventmachine
 
 if [ -d ~/vcloud-cli ]; then
 	rm -fr ~/vcloud-cli
